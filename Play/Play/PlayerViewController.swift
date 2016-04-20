@@ -129,6 +129,21 @@ class PlayerViewController: UIViewController {
         let clientID = NSDictionary(contentsOfFile: path!)?.valueForKey("client_id") as! String
         let track = tracks[currentIndex]
         let url = NSURL(string: "https://api.soundcloud.com/tracks/\(track.id)/stream?client_id=\(clientID)")!
+        if (player.currentItem?.status == .ReadyToPlay) {
+            if (player.rate == 1.0) {
+                player.pause()
+                sender.selected = false
+            } else {
+                player.play()
+                sender.selected = true
+                print("why")
+            }
+            return
+        }
+        player = AVPlayer(URL : url)
+        player.play()
+        sender.selected = true
+        
         // FILL ME IN
     
     }
@@ -140,6 +155,16 @@ class PlayerViewController: UIViewController {
      * Remember to update the currentIndex
      */
     func nextTrackTapped(sender: UIButton) {
+        if (currentIndex < tracks.count-1) {
+            currentIndex!+=1
+            let path = NSBundle.mainBundle().pathForResource("Info", ofType: "plist")
+            let clientID = NSDictionary(contentsOfFile: path!)?.valueForKey("client_id") as! String
+            let track = tracks[currentIndex]
+            let url = NSURL(string: "https://api.soundcloud.com/tracks/\(track.id)/stream?client_id=\(clientID)")!
+            player = AVPlayer(URL : url)
+            player.play()
+            loadTrackElements()
+        }
     
     }
 
@@ -154,6 +179,33 @@ class PlayerViewController: UIViewController {
      */
 
     func previousTrackTapped(sender: UIButton) {
+        if (currentIndex == 0) {
+            let path = NSBundle.mainBundle().pathForResource("Info", ofType: "plist")
+            let clientID = NSDictionary(contentsOfFile: path!)?.valueForKey("client_id") as! String
+            let track = tracks[currentIndex]
+            let url = NSURL(string: "https://api.soundcloud.com/tracks/\(track.id)/stream?client_id=\(clientID)")!
+            player = AVPlayer(URL : url)
+            player.play()
+        }
+        if (player.currentTime().seconds <= 3) {
+            let path = NSBundle.mainBundle().pathForResource("Info", ofType: "plist")
+            let clientID = NSDictionary(contentsOfFile: path!)?.valueForKey("client_id") as! String
+            let track = tracks[currentIndex]
+            let url = NSURL(string: "https://api.soundcloud.com/tracks/\(track.id)/stream?client_id=\(clientID)")!
+            player = AVPlayer(URL : url)
+            player.play()
+        }
+        else {
+            let path = NSBundle.mainBundle().pathForResource("Info", ofType: "plist")
+            let clientID = NSDictionary(contentsOfFile: path!)?.valueForKey("client_id") as! String
+            currentIndex!-=1;
+            let track = tracks[currentIndex]
+            let url = NSURL(string: "https://api.soundcloud.com/tracks/\(track.id)/stream?client_id=\(clientID)")!
+            player = AVPlayer(URL : url)
+            player.play()
+            loadTrackElements()
+
+        }
     
     }
     
