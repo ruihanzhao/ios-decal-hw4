@@ -12,6 +12,7 @@ import AVFoundation
 class PlayerViewController: UIViewController {
     var tracks: [Track]!
     var scAPI: SoundCloudAPI!
+    var playing : Bool!
     
     var currentIndex: Int!
     var player: AVPlayer!
@@ -133,9 +134,11 @@ class PlayerViewController: UIViewController {
             if (player.rate == 1.0) {
                 player.pause()
                 sender.selected = false
+                playing = false
             } else {
                 player.play()
                 sender.selected = true
+                playing = true
                 print("why")
             }
             return
@@ -143,6 +146,7 @@ class PlayerViewController: UIViewController {
         player = AVPlayer(URL : url)
         player.play()
         sender.selected = true
+        playing = true
         
         // FILL ME IN
     
@@ -162,7 +166,9 @@ class PlayerViewController: UIViewController {
             let track = tracks[currentIndex]
             let url = NSURL(string: "https://api.soundcloud.com/tracks/\(track.id)/stream?client_id=\(clientID)")!
             player = AVPlayer(URL : url)
-            player.play()
+            if (playing == true) {
+                player.play()
+            }
             loadTrackElements()
         }
     
@@ -185,7 +191,9 @@ class PlayerViewController: UIViewController {
             let track = tracks[currentIndex]
             let url = NSURL(string: "https://api.soundcloud.com/tracks/\(track.id)/stream?client_id=\(clientID)")!
             player = AVPlayer(URL : url)
-            player.play()
+            if (playing == true) {
+                player.play()
+            }
         }
         if (player.currentTime().seconds <= 3) {
             let path = NSBundle.mainBundle().pathForResource("Info", ofType: "plist")
@@ -193,7 +201,9 @@ class PlayerViewController: UIViewController {
             let track = tracks[currentIndex]
             let url = NSURL(string: "https://api.soundcloud.com/tracks/\(track.id)/stream?client_id=\(clientID)")!
             player = AVPlayer(URL : url)
-            player.play()
+            if (playing == true) {
+                player.play()
+            }
         }
         else {
             let path = NSBundle.mainBundle().pathForResource("Info", ofType: "plist")
@@ -202,7 +212,9 @@ class PlayerViewController: UIViewController {
             let track = tracks[currentIndex]
             let url = NSURL(string: "https://api.soundcloud.com/tracks/\(track.id)/stream?client_id=\(clientID)")!
             player = AVPlayer(URL : url)
-            player.play()
+            if (playing == true) {
+                player.play()
+            }
             loadTrackElements()
 
         }
