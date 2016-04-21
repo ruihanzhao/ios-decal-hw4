@@ -195,7 +195,7 @@ class PlayerViewController: UIViewController {
                 player.play()
             }
         }
-        if (player.currentTime().seconds <= 3) {
+        else if (player.currentTime().seconds > 3) {
             let path = NSBundle.mainBundle().pathForResource("Info", ofType: "plist")
             let clientID = NSDictionary(contentsOfFile: path!)?.valueForKey("client_id") as! String
             let track = tracks[currentIndex]
